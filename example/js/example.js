@@ -141,4 +141,3 @@ getAndParseData();
 $(document).ready(function() {
   bindEvents();
 });
-

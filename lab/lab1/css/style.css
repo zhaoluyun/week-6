@@ -31,4 +31,42 @@ p.main {
   position: absolute;
   background-color: #fff;
   z-index: 2000;
+  margin-left:50px;
+  margin-top: 30px;
+}
+
+.box {
+  position: relative;
+  width:20px;
+  height:20px;
+}
+
+.day {
+  position: absolute;
+  margin-left: 30px;
+  margin-top:0px;
+}
+
+#mon {
+    background-color: #f3ecbc;
+}
+#tue{
+  background-color: #f4b657;
+}
+#wed{
+  background-color: #f1625d;
+}
+#thu{
+  background-color: #8dbeb1;
+}
+#fri{
+  background-color: #5d4c52;
+}
+
+
+#close {
+  position:fixed;
+  margin-top: 0px;
+  margin-left: 320px;
+
 }

@@ -101,24 +101,56 @@ the week was the most common for garbage removal?
 var dataset = 'https://raw.githubusercontent.com/CPLN690-MUSA610/datasets/master/geojson/philadelphia-garbage-collection-boundaries.geojson';
 
 var myStyle = function(feature) {
-  return {};
-};
+  if (feature.properties.COLLDAY === "MON") {
+    return {fillColor: '#f3ecbc'};
+  }
+  else if (feature.properties.COLLDAY === "TUE") {
+    return {fillColor: '#f4b657'};
+  }
+  else if (feature.properties.COLLDAY === "WED") {
+    return {fillColor: '#f1625d'};
+  }
+  else if (feature.properties.COLLDAY === "THU") {
+    return {fillColor: '#8dbeb1'};
+  }
+  else {
+    return {fillColor: '#5d4c52'};
+  }
+}; //task 2
+
+
 
 var eachFeature = function(feature, layer) {
+if (feature.properties.COLLDAY === "MON") {
+  feature.properties.Collday = 'Monday' ;
+}
+if (feature.properties.COLLDAY === "TUE") {
+  feature.properties.Collday = 'Tuesday' ;
+}
+if (feature.properties.COLLDAY === "WED") {
+  feature.properties.Collday = 'Wednesday' ;
+}
+if (feature.properties.COLLDAY === "THU") {
+  feature.properties.Collday = 'Thursday' ;
+}
+if (feature.properties.COLLDAY === "FRI") {
+  feature.properties.Collday = 'Friday' ;
+}
   layer.on('click', function (e) {
-    /* =====================
-    The following code will run every time a feature on the map is clicked.
-    Check out feature.properties to see some useful data about the feature that
-    you can use in your application.
-    ===================== */
+  $('.day-of-week').text(feature.properties.Collday);
+    //task 4
+    map.fitBounds(this.getBounds());
+    //Task 6
     console.log(feature);
     showResults();
   });
 };
 
 var myFilter = function(feature) {
+  if (feature.properties.COLLDAY !== " ") {
   return true;
-};
+  }
+}; // task 3
 
 $(document).ready(function() {
   $.ajax(dataset).done(function(data) {
@@ -131,6 +163,7 @@ $(document).ready(function() {
   });
 });
 
+
 var showResults = function() {
   /* =====================
   This function uses some jQuery methods that may be new. $(element).hide()
@@ -141,6 +174,47 @@ var showResults = function() {
   $('#intro').hide();
   $('#results').show();
 };
+
+var closeResults = function() {
+  $('#results').hide();
+  $('#intro').show();
+map.setView([40.000, -75.1090], 11);
+};
+
+$('#close').click(function(){
+closeResults();
+});
+//task 7
+
+
+// task 8
+$(document).ready(function() {
+  $.ajax(dataset).done(function(data) {
+    var parsedData = JSON.parse(data);
+var num = [{day: 'Monday', n: 0}, {day: 'Tuesday', n: 0}, {day: 'Wednesday', n: 0}, {day: 'Thursday', n: 0}, {day: 'Friday', n: 0}];
+_.each(parsedData.features, function(feature){
+  if (feature.properties.COLLDAY === "MON") {
+    num[0].n ++;
+  }
+  if (feature.properties.COLLDAY === "TUE") {
+    num[1].n ++ ;
+  }
+  if (feature.properties.COLLDAY === "WED") {
+    num[2].n ++ ;
+  }
+  if (feature.properties.COLLDAY === "THU") {
+    num[3].n ++ ;
+  }
+  if (feature.properties.COLLDAY === "FRI") {
+    num[4].n ++ ;
+  }
+});
+console.log(num);
+var max = _.max(num, function(num){ return num.n; });
+console.log(max.day);
+});
+});
+
 
 /* =====================
 Leaflet Configuration
